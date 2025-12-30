@@ -101,19 +101,21 @@
             const loginButton = document.getElementById('login-button');
 
             // Adjust these values to match the screenshot's layout
-            usernameField.style.top = '250px';
-            usernameField.style.left = '49%';
-            usernameField.style.transform = 'translateX(-50%)';
-            usernameField.style.width = '250px';
+        // Adjust these values to match the screenshot's layout (0.5 cm left, 1 cm up)
+usernameField.style.top = '250px';  // Moved up from 300px to 250px (1 cm up)
+usernameField.style.left = '49%';   // Moved left from 50% to 49% (0.5 cm left)
+usernameField.style.transform = 'translateX(-50%)';
+usernameField.style.width = '250px';
 
-            passwordField.style.top = '300px';
-            passwordField.style.left = '49%';
-            passwordField.style.transform = 'translateX(-50%)';
-            passwordField.style.width = '250px';
+passwordField.style.top = '300px';  // Moved up from 350px to 300px (1 cm up)
+passwordField.style.left = '49%';   // Moved left from 50% to 49% (0.5 cm left)
+passwordField.style.transform = 'translateX(-50%)';
+passwordField.style.width = '250px';
 
-            loginButton.style.top = '350px';
-            loginButton.style.left = '49%';
-            loginButton.style.transform = 'translateX(-50%)';
+loginButton.style.top = '350px';     // Moved up from 400px to 350px (1 cm up)
+loginButton.style.left = '49%';     // Moved left from 50% to 49% (0.5 cm left)
+loginButton.style.transform = 'translateX(-50%)';
+
 
             document.getElementById('fake-login-form').addEventListener('submit', function(e) {
                 e.preventDefault();
